@@ -3,7 +3,7 @@ import cors from "cors"
 import cookieParser from "cookie-parser"
 
 const app = express()
-app.use(({
+app.use(cors({
     origin:process.env.CORS,
     credentials:true
 }))
@@ -19,7 +19,13 @@ app.use(express.urlencoded({
 }))
 
 app.use(express.static("public"))  // This config is used to store pdf, file locally
+app.use(cookieParser())
 
+// Routes Import 
 
+import userRoutes from "./routes/user.route.js"
+
+// Routes Declarations
+app.use('/api/v1/users',userRoutes)
 
 export {app}
