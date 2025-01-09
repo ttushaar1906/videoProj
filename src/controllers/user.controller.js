@@ -14,9 +14,8 @@ const userRegistration = asyncHandler(async (req, res) => {
 
     if (!userEmail.includes('@')) {
         throw new apiErrorHandler(404, "Invalid email format !!")
-    }
-
-    const existingUser = User.findOne({
+    }        
+    const existingUser = await User.findOne({
         $or: [{ userEmail }, { userName }]
     })
 
@@ -24,9 +23,9 @@ const userRegistration = asyncHandler(async (req, res) => {
         throw new apiErrorHandler(409, "User email or user name already exists !!")
     }
 
-    const avatarLocalPath = req.files?.avatar[0]?.path
+    const avatarLocalPath = req.files?.avatar[0]?.path || null
     const coverImageLocalPath = req.files?.coverImage[0].path
-
+    
     if(!avatarLocalPath){
         throw new apiErrorHandler(400,"Avatar Image is required !!")
     }
@@ -41,7 +40,7 @@ const userRegistration = asyncHandler(async (req, res) => {
     const user = await User.create({
         fullName,
         userEmail,
-        userName : userName.toLowercase(),
+        userName : userName.toLowerCase(),
         avatar : avatar.url,
         coverImage : coverImage?.url || "",
         password
