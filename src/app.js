@@ -9,11 +9,11 @@ app.use(cors({
 }))
 
 // Configuration settings
-app.use(express.json({
+app.use(express.json({   // It is used to accept json data from client
     limit:"16kb"
 }))
 
-app.use(express.urlencoded({
+app.use(express.urlencoded({    // It is used to accept form data  
     extended:true,
     limit:"16kb"
 }))

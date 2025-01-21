@@ -5,7 +5,10 @@ import {cloudinaryUpload} from "../utils/cloundiary.js"
 import {apiResponse} from "../utils/apiResponse.js" 
 
 const userRegistration = asyncHandler(async (req, res) => {
+   
     const { userName, userEmail, fullName, password } = req.body;
+    // Here it will log details of userName, userEmailm fullName and password 
+
     if (
         [userName, userEmail, fullName, password].some((fields) => fields?.trim() === "")
     ) {
@@ -14,7 +17,8 @@ const userRegistration = asyncHandler(async (req, res) => {
 
     if (!userEmail.includes('@')) {
         throw new apiErrorHandler(404, "Invalid email format !!")
-    }        
+    }   
+         
     const existingUser = await User.findOne({
         $or: [{ userEmail }, { userName }]
     })
@@ -24,8 +28,15 @@ const userRegistration = asyncHandler(async (req, res) => {
     }
 
     const avatarLocalPath = req.files?.avatar[0]?.path || null
-    const coverImageLocalPath = req.files?.coverImage[0].path
+    // req.files logs the info of the file here it will display fileName, size, original Name etc with [Object: null prototype] 
+    // const coverImageLocalPath = req.files?.coverImage[0].path
     
+    let coverImageLocalPath
+    if(req.files && Array.isArray(req.files.coverImage) && req.files.coverImage.length > 0){
+        coverImageLocalPath = req.files.coverImage[0].path
+    } 
+
+
     if(!avatarLocalPath){
         throw new apiErrorHandler(400,"Avatar Image is required !!")
     }
