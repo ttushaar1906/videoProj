@@ -9,10 +9,9 @@ const generateAccessTokenRefreshToken = async (userId) => {
         const user = await User.findById(userId)
         const accessToken = user.generateAccessToken()
         const refreshToken = user.generateRefreshToken()
-
-        user.refreshToken = refreshToken
+        
+        user.refreshToken = refreshToken        
         await user.save({ ValidateBeforeSave: false })
-
         return { accessToken, refreshToken }
 
     } catch (error) {
@@ -89,20 +88,20 @@ const loginUser = asyncHandler(async (req, res) => {
 
     const { userEmail, userName, password } = req.body
 
-    if (!userEmail || !userName) return res.status(400).json(new apiErrorHandler(400, "Enter username or user email !!"))
+    if (!(userEmail || userName)) return res.status(400).json(new apiErrorHandler(400, "Enter username or user email !!"))
 
     const user = await User.findOne({
         $or: [{ userEmail }, { userName }]
     })
     if (!user) return res.status(404).json(new apiErrorHandler(404, "User not found !!"))
-
+    
     const isPasswordCorrect = await user.isPasswordCorrect(password)
 
     if (!isPasswordCorrect) return res.status(401).json(new apiErrorHandler(401, "Incorrect Password !!"))
 
-    const { accessToken, refreshToken } = await generateAccessTokenRefreshToken(user._id)
-
     const loggedInUser = await User.findById(user._id).select("-password -refreshToekn")
+    
+    const { accessToken, refreshToken } = await generateAccessTokenRefreshToken(user._id)
 
     // This is used to set cookies only from backend 
     const options = {
