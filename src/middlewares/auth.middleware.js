@@ -3,9 +3,9 @@ import { apiErrorHandler } from "../utils/apiError.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import jwt from "jsonwebtoken"
 
-export const verifyJWT = asyncHandler(async (req, res) => {
+export const verifyJWT = asyncHandler(async (req, res,next) => {
     try {
-        const token = req.cookies?.accessToken || req.headers("Authorization")?.replace("Bearer", "")
+        const token = req.cookies?.accessToken ||  req.headers["authorization"]?.replace("Bearer ", "").trim()
         console.log(`this is token ${token}`);
         
         if (!token) throw new apiErrorHandler(401, "Unauthorization")
