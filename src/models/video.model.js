@@ -1,4 +1,4 @@
-import _default from "emoji-picker-react/dist/data/emojis";
+// import _default from "emoji-picker-react/dist/data/emojis";
 import mongoose, { Schema } from "mongoose";
 import mongooseAggregatePaginate from "mongoose-aggregate-paginate-v2";
 
@@ -40,4 +40,4 @@ const videoSchema = new Schema(
 
 videoSchema.plugin(mongooseAggregatePaginate)
 
-export const Video = mongoose.Model("Video", videoSchema)
+export const Video = mongoose.model("Video", videoSchema)

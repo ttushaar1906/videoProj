@@ -1,10 +1,10 @@
 import { asyncHandler } from "../utils/asyncHandler.js";
-import { apiErrorHandler } from "../utils/apiError.js";
 import { User } from "../models/user.model.js";
 import { cloudinaryUpload } from "../utils/cloundiary.js";
-import { apiResponse } from "../utils/apiResponse.js";
 import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
+import { apiErrorHandler } from "../utils/ApiError.js";
+import { apiResponse } from "../utils/ApiResponse.js";
 
 const generateAccessTokenRefreshToken = async (userId) => {
   try {
@@ -170,7 +170,7 @@ const logoutUser = asyncHandler(async (req, res) => {
 
 const refreshAccessToken = asyncHandler(async (req, res) => {
   const inComingAccessToken =
-    req.cookie.refreshAccessToken || req.body.refreshAccessToken;
+    req.cookie.refreshToken || req.body.refreshToken;
 
   if (!inComingAccessToken) {
     throw new apiErrorHandler(401, "Authorized request");
@@ -188,7 +188,7 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
     }
 
     if (deCodedToken !== user.refreshAccessToken) {
-      throw new ApiError(401, "Refresh token is expired or used");
+      throw new apiErrorHandler(401, "Refresh token is expired or used");
     }
 
     const options = {

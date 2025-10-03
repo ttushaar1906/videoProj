@@ -6,8 +6,7 @@ import jwt from "jsonwebtoken"
 export const verifyJWT = asyncHandler(async (req, res,next) => {
     try {
         const token = req.cookies?.accessToken ||  req.headers["authorization"]?.replace("Bearer ", "").trim()
-        console.log(`this is token ${token}`);
-        
+       
         if (!token) throw new apiErrorHandler(401, "Unauthorization")
 
         const decodedToken = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET)
