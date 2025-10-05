@@ -5,6 +5,7 @@ import userRoutes from "./routes/user.route.js"
 import tweetRoute from "./routes/tweet.route.js"
 import videoRoute from "./routes/video.route.js"
 import commentRoute from "./routes/comment.route.js"
+import playlistRoute from "./routes/playlist.route.js"
 
 const app = express()
 app.use(cors({
@@ -37,5 +38,6 @@ app.use('/api/v1/users',userRoutes)
 app.use('/api/v1/tweets',tweetRoute)
 app.use('/api/v1/video',videoRoute)
 app.use('/api/v1/comments',commentRoute)
+app.use('/api/v1/playlist',playlistRoute)
 
 export {app}
