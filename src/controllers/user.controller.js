@@ -3,7 +3,7 @@ import { User } from "../models/user.model.js";
 import { cloudinaryUpload } from "../utils/cloundiary.js";
 import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
-import { apiErrorHandler } from "../utils/ApiError.js";
+import { apiErrorHandler } from "../utils/apiError.js"
 import { apiResponse } from "../utils/ApiResponse.js";
 
 const generateAccessTokenRefreshToken = async (userId) => {
@@ -417,6 +417,7 @@ const getWatchHistory = asyncHandler(async (req, res) => {
       )
     );
 });
+
 export {
   userRegistration,
   loginUser,
